@@ -36,6 +36,11 @@ const routes = [
         name: 'esqueceuasenha',
         component: () => import('@/views/ForgotPassword.vue'),
       },
+      {
+        path: '/categorias',
+        name: 'categorias',
+        component: () => import('@/views/Categorias.vue'),
+      },
     ],
   },
 ]

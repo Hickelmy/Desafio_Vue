@@ -71,7 +71,6 @@ export default defineComponent({
 
         const data = await response.json();
         if (data.token) {
-          // Save the token in local storage
           localStorage.setItem("token", data.token);
           router.push("/dashboard");
           showAlert.value = true;

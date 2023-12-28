@@ -37,68 +37,67 @@
   <!-- <v-navigation-drawer v-model="drawer" app> </v-navigation-drawer> -->
 
   <v-navigation-drawer :width="220" v-model="drawer" app>
-    <v-list>
-      <v-list-item>
-        <v-btn @click="$router.push('/')">
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn @click="$router.push('/dashboard')">
-          <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn @click="$router.push('/login')">
-          <v-list-item-content>
-            <v-list-item-title>Login</v-list-item-title>
-          </v-list-item-content>
-        </v-btn>
-      </v-list-item>
-      <v-list-item>
-        <v-btn @click="$router.push('/cadastro')">
-          <v-list-item-content>
-            <v-list-item-title>Cadastro</v-list-item-title>
-          </v-list-item-content>
-        </v-btn>
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+  <v-list>
+    <v-list-item>
+      <v-btn @click="$router.push('/')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Home</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-btn @click="$router.push('/dashboard')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Dashboard</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-btn @click="$router.push('/login')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Login</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-btn @click="$router.push('/cadastro')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Cadastro de Usuario</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-btn @click="$router.push('/produtos')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Cadastro de Produtos</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+    <v-list-item>
+      <v-btn @click="$router.push('/categorias')" elevation="0">
+        <v-list-item-content>
+          <v-list-item-title>Cadastro de Categorias</v-list-item-title>
+        </v-list-item-content>
+      </v-btn>
+    </v-list-item>
+  </v-list>
+</v-navigation-drawer>
 
-  <v-app-bar height="80" flat color="black" fixed>
-    <v-btn append-icon="mdi mdi-link" class="mr-16">
+  <v-app-bar height="80" flat color="black" fixed> 
+    <v-btn append-icon="mdi mdi-link" class="mr-16" @click="$router.push('/')">
       <template v-slot:append>
         <v-icon></v-icon>
       </template>
       Home
     </v-btn>
 
-    <v-btn append-icon="mdi mdi-link" class="mr-16">
+    <v-btn append-icon="mdi mdi-link" class="mr-16" @click="$router.push('/dashboard')">
       <template v-slot:append>
         <v-icon></v-icon>
       </template>
       Dashboard
     </v-btn>
-
-    <v-btn append-icon="mdi mdi-link" class="mr-16">
-      <template v-slot:append>
-        <v-icon></v-icon>
-      </template>
-      Login
-    </v-btn>
-
-    <v-btn append-icon="mdi mdi-link" class="mr-16">
-      <template v-slot:append>
-        <v-icon></v-icon>
-      </template>
-      Cadastro
-    </v-btn>
   </v-app-bar>
-
   <v-container> </v-container>
 </template>
 
