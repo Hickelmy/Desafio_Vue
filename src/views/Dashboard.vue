@@ -2,26 +2,30 @@
     <v-container>
       <h1>Dashboard</h1>
   
-      <v-toolbar>
-        <v-text-field
-          v-model="searchTerm"
-          label="Search"
-          outlined
-          solo-inverted
-          clearable
-        ></v-text-field>
-  
-        <v-select
-          v-model="searchCategory"
-          :items="searchCategories"
-          label="Search Category"
-          solo-inverted
-        ></v-select>
-  
-        <v-btn @click="search" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </v-toolbar>
+      <v-row align="end" justify="end">
+      <v-col cols="12" md="4">
+        <v-toolbar flat>
+          <v-select
+            v-model="searchCategory"
+            :items="searchCategories"
+            label="Search Category"
+            solo-inverted
+          ></v-select>
+
+          <v-text-field
+            v-model="searchTerm"
+            label="Search"
+            outlined
+            solo-inverted
+            clearable
+          ></v-text-field>
+
+          <v-btn @click="search" icon>
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-toolbar>
+      </v-col>
+    </v-row>
   
       <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
@@ -112,7 +116,7 @@
   ];
   
   const searchTerm = ref('');
-  const searchCategory = ref('name'); // Default to searching by name
+  const searchCategory = ref('name'); 
   const searchCategories = ['name', 'description', 'price', 'expiration_date', 'category_id'];
   
   const filteredProducts = ref([]);
