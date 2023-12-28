@@ -70,8 +70,8 @@ npm run lint
 | `id` | `string` | ID do produto |
 | `name` | `string` | Nome do produto |
 | `description` | `string` | Descrição do produto |
-| `price` | `string` | Preço do produto |
-| `expiration_date` | `string` | Data de validade do produto |
+| `price` | `decimal` | Preço do produto |
+| `expiration_date` | `Date` | Data de validade do produto |
 | `image` | `string` | Url da imagem produto |
 | `category_id` | `string` | ID produto |
 
@@ -87,7 +87,7 @@ npm run lint
 
 #### ----------------------------------------
 
-#### Login Do Usuario
+#### Login do usuario
 
 ```http
   POST /api/auth/login
@@ -99,7 +99,7 @@ npm run lint
 | `password` | `string` | senha do usuario |
 
 
-#### Cadastro de um novo Do Usuario
+#### Cadastro de um novo usuario
 
 ```http
   POST /api/auth/register
