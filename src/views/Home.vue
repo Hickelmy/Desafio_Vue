@@ -1,26 +1,8 @@
-
-import Products from '@/components/Products.vue';
 <template>
   <v-app>
     <v-main>
       <v-container>
         <v-row>
-          <!-- <v-col cols="12" sm="2">
-            <v-card color="#F5F5F5" flat class="mt-14 pa-2" width="100%">
-              <h4>Teste 01</h4>
-              <span>Teste 02</span>
-              <v-select
-                clearable
-                label="Select"
-                :items="['Tempo', 'Tamanho', 'Cor', 'Detalhes']"
-                variant="outlined"
-                class="mt-2"
-              ></v-select>
-              <v-divider></v-divider>
-              <Item />
-            </v-card>
-          </v-col> -->
-
           <v-col cols="12" sm="10">
             <v-breadcrumbs :items="items">
               <template v-slot:divider>
@@ -33,19 +15,18 @@ import Products from '@/components/Products.vue';
               <h1>Items</h1>
               <v-spacer></v-spacer>
               <v-select
+                v-model="selectedSort"
                 clearable
-                label="Selecione"
-                :items="['Manaus', 'Belem', 'Sao Paulo', 'Rio de Janeiro']"
+                label="Ordenar por"
+                :items="sortOptions"
                 variant="outlined"
               ></v-select>
             </v-toolbar>
 
-            <!-- <ProductsVue /> -->
-
             <v-card variant="outlined" class="my-2">
               <v-row>
                 <v-col
-                  v-for="product in products"
+                  v-for="product in filteredProducts"
                   :key="product.id"
                   cols="12"
                   sm="4"
@@ -66,11 +47,13 @@ import Products from '@/components/Products.vue';
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import axios from "axios";
 
-const selectedCity = ref(null);
+const selectedSort = ref(null);
+const sortOptions = ["Alfabético", "Data mais recente"];
 const products = ref([]);
+const search = ref("");
 
 const items = [
   {
@@ -81,13 +64,34 @@ const items = [
 ];
 
 onMounted(async () => {
-  // Substitua a URL abaixo pela sua API real
-  const apiUrl = "http://127.0.0.1:8000/api/produtos/get";
+  fetchProducts();
+});
+
+const fetchProducts = async () => {
+  const apiUrl = `http://127.0.0.1:8000/api/produtos/get?search=${search.value}`;
   try {
     const response = await axios.get(apiUrl);
     products.value = response.data.data;
+
+    if (selectedSort.value === "Alfabético") {
+      products.value.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (selectedSort.value === "Data mais recente") {
+      products.value.sort(
+        (a, b) => new Date(b.expiration_date) - new Date(a.expiration_date)
+      );
+    }
   } catch (error) {
     console.error("Erro ao buscar produtos da API:", error);
   }
+};
+
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    return !search.value || product.name.includes(search.value);
+  });
+});
+
+watch([search, selectedSort], () => {
+  fetchProducts();
 });
 </script>
