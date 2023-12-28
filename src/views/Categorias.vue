@@ -1,21 +1,6 @@
 <template>
-    <v-app>
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-card>
-              <v-card-title>Cadastro de Categoria</v-card-title>
-              <v-card-text>
-                <v-form @submit.prevent="submitForm">
-                  <v-text-field
-                    v-model="form.name"
-                    label="Nome da Categoria"
-                    required
-                  ></v-text-field>
-  
-                  <v-btn type="submit" color="primary">Cadastrar</v-btn>
-  
-                  <v-alert
+
+<v-alert
                     v-if="successMessage"
                     type="success"
                     dismissible
@@ -32,6 +17,24 @@
                   >
                     {{ errorMessage }}
                   </v-alert>
+                  
+    <v-app>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+              <v-card-title>Cadastro de Categoria</v-card-title>
+              <v-card-text>
+                <v-form @submit.prevent="submitForm">
+                  <v-text-field
+                    v-model="form.name"
+                    label="Nome da Categoria"
+                    required
+                  ></v-text-field>
+  
+                  <v-btn type="submit" color="primary">Cadastrar</v-btn>
+  
+                  
                 </v-form>
               </v-card-text>
             </v-card>
