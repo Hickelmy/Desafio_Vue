@@ -119,6 +119,7 @@
   const searchCategory = ref('name'); 
   const searchCategories = ['name', 'description', 'price', 'expiration_date', 'category_id'];
   
+  
   const filteredProducts = ref([]);
   const perPage = ref(10);
   const page = ref(1);

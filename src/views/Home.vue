@@ -32,7 +32,7 @@
                   sm="4"
                 >
                   <v-card variant="outlined" class="my-2">
-                    <v-img :src="product.image" alt="Product Image"></v-img>
+                    <v-img :src="product.image" alt="Product Image" class="v-responsive"></v-img>
                     <v-card-title>{{ product.name }}</v-card-title>
                     <v-card-subtitle>{{ product.price }}</v-card-subtitle>
                   </v-card>

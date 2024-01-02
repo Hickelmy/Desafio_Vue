@@ -7,12 +7,42 @@
             <v-card-title>Cadastro de Produto</v-card-title>
             <v-card-text>
               <v-form @submit.prevent="submitForm">
-                <v-text-field v-model="form.name" label="Nome do Produto" required></v-text-field>
-                <v-text-field v-model="form.description" label="Descrição" required></v-text-field>
-                <v-text-field v-model="form.price" label="Preço" type="number" required></v-text-field>
-                <v-date-picker v-model="form.expiration_date" label="Data de Expiração" required></v-date-picker>
-                <v-file-input v-model="form.image" label="Imagem do Produto" show-size accept="image/*" required></v-file-input>
-                <v-select v-model="form.category_id" :items="categories" label="Categoria" item-text="text" item-value="value" required></v-select>
+                <v-text-field
+                  v-model="form.name"
+                  label="Nome do Produto"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.description"
+                  label="Descrição"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="form.price"
+                  label="Preço"
+                  type="number"
+                  required
+                ></v-text-field>
+                <v-date-picker
+                  v-model="form.expiration_date"
+                  label="Data de Expiração"
+                  required
+                ></v-date-picker>
+                <v-file-input
+                  v-model="form.image"
+                  label="Imagem do Produto"
+                  show-size
+                  accept="image/*"
+                  required
+                ></v-file-input>
+                <v-select
+                  v-model="form.category_id"
+                  :items="categories"
+                  label="Categoria"
+                  item-text="text"
+                  item-value="value"
+                  required
+                ></v-select>
                 <v-btn type="submit" color="primary">Cadastrar</v-btn>
               </v-form>
             </v-card-text>
@@ -43,19 +73,17 @@ const alertType = ref("success");
 
 const fetchCategories = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/api/categories/get");
+    const response = await axios.get(
+      "http://127.0.0.1:8000/api/categories/get"
+    );
     // categories.value = response.data.map((category) => ({ text: category.name, value: category.id }));
     categories.value = response.data.map((category) => category.name);
 
-  
-    console.log('categories.value :', categories.value)
+    console.log("categories.value :", categories.value);
   } catch (error) {
     console.error("Erro ao buscar categorias:", error);
   }
 };
-
-
-
 
 const submitForm = async () => {
   try {
@@ -63,11 +91,29 @@ const submitForm = async () => {
     formData.append("name", form.value.name);
     formData.append("description", form.value.description);
     formData.append("price", form.value.price);
-    formData.append("expiration_date", form.value.expiration_date.toISOString().split("T")[0]);
-    formData.append("image", form.value.image);
+    formData.append(
+      "expiration_date",
+      form.value.expiration_date.toISOString().split("T")[0]
+    );
     formData.append("category_id", form.value.category_id);
 
-    const response = await axios.post("http://127.0.0.1:8000/api/produtos/add", formData);
+    formData.append("image", form.value.image[0]);
+    console.log("form.value.image : ", form.value.image);
+
+    if (
+      Array.isArray(form.value.image) &&
+      form.value.image[0] instanceof File
+    ) {
+      formData.append("image", form.value.image[0]);
+    } else {
+      console.error("Imagem inválida");
+    }
+    console.log("form.value.image : ", form.value.image);
+
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/produtos/add",
+      formData
+    );
 
     showAlert.value = true;
     alertMessage.value = "Produto cadastrado com sucesso!";
@@ -89,7 +135,7 @@ const resetForm = () => {
   form.value.price = 0;
   form.value.expiration_date = null;
   form.value.image = null;
-  form.value.category_id = '';
+  form.value.category_id = "";
 };
 
 onMounted(() => {
