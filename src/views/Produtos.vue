@@ -35,14 +35,52 @@
                   accept="image/*"
                   required
                 ></v-file-input>
-                <v-select
-                  v-model="form.category_id"
-                  :items="categories"
-                  label="Categoria"
-                  item-text="text"
-                  item-value="value"
-                  required
-                ></v-select>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-select
+                      v-model="form.category_id"
+                      :items="categories"
+                      label="Categoria"
+                      item-text="text"
+                      item-value="value"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-btn icon @click="openCategoryDialog">
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+
+                <v-dialog v-model="categoryDialog" max-width="600px">
+                  <v-card>
+                    <v-card-title>Cadastro de Categoria</v-card-title>
+                    <v-card-text>
+                      <v-form @submit.prevent="submitCategoryForm">
+                        <v-text-field
+                          v-model="categoryForm.name"
+                          label="Nome da Categoria"
+                          required
+                        ></v-text-field>
+
+                        <v-row>
+                          <v-col>
+                            <v-btn @click="categoryDialog = false"
+                              >Cancelar</v-btn
+                            >
+                          </v-col>
+                          <v-col>
+                            <v-btn type="submit" color="primary"
+                              >Confirmar</v-btn
+                            >
+                          </v-col>
+                        </v-row>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+
                 <v-btn type="submit" color="primary">Cadastrar</v-btn>
               </v-form>
             </v-card-text>
@@ -71,15 +109,21 @@ const showAlert = ref(false);
 const alertMessage = ref("");
 const alertType = ref("success");
 
+const categoryDialog = ref(false);
+const categoryForm = ref({
+  name: "",
+});
+
+const openCategoryDialog = () => {
+  categoryDialog.value = true;
+};
+
 const fetchCategories = async () => {
   try {
     const response = await axios.get(
       "http://127.0.0.1:8000/api/categories/get"
     );
-    // categories.value = response.data.map((category) => ({ text: category.name, value: category.id }));
     categories.value = response.data.map((category) => category.name);
-
-    console.log("categories.value :", categories.value);
   } catch (error) {
     console.error("Erro ao buscar categorias:", error);
   }
@@ -97,9 +141,6 @@ const submitForm = async () => {
     );
     formData.append("category_id", form.value.category_id);
 
-    formData.append("image", form.value.image[0]);
-    console.log("form.value.image : ", form.value.image);
-
     if (
       Array.isArray(form.value.image) &&
       form.value.image[0] instanceof File
@@ -108,7 +149,6 @@ const submitForm = async () => {
     } else {
       console.error("Imagem inválida");
     }
-    console.log("form.value.image : ", form.value.image);
 
     const response = await axios.post(
       "http://127.0.0.1:8000/api/produtos/add",
@@ -129,13 +169,30 @@ const submitForm = async () => {
   }
 };
 
-const resetForm = () => {
-  form.value.name = "";
-  form.value.description = "";
-  form.value.price = 0;
-  form.value.expiration_date = null;
-  form.value.image = null;
-  form.value.category_id = "";
+const submitCategoryForm = async () => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/categories/add",
+      categoryForm.value
+    );
+
+    fetchCategories();
+
+    categoryForm.value = {
+      name: "",
+    };
+
+    successMessage.value = "Categoria cadastrada com sucesso!";
+    errorMessage.value = "";
+
+    categoryDialog.value = false; 
+  } catch (error) {
+    console.error("Erro ao cadastrar categoria:", error);
+
+    errorMessage.value =
+      "Erro ao cadastrar categoria. Verifique se a categoria já existe.";
+    successMessage.value = "";
+  }
 };
 
 onMounted(() => {
